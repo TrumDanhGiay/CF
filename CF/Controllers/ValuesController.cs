@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CF.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,9 +11,15 @@ namespace CF.Controllers
     public class ValuesController : ApiController
     {
         // GET api/values
-        public IEnumerable<string> Get()
+        public void Get()
         {
-            return new string[] { "value1", "value2" };
+            using(var DbContext = new StudentCOntext())
+            {
+                Student student = DbContext.Student.FirstOrDefault();
+                student.name = "Duong Trang";
+                DbContext.ChangeTracker.DetectChanges();
+                DbContext.SaveChanges();
+            }
         }
 
         // GET api/values/5
